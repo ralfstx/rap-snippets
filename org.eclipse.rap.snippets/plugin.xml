@@ -14,7 +14,7 @@
          point="org.eclipse.rap.ui.branding">
       <branding
            id="org.eclipse.rap.snippets.branding"
-           servletName="snippets"
+           servletName="snippet"
            defaultEntrypointId="org.eclipse.rap.snippets.entrypoint">
       </branding>
    </extension>

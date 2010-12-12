@@ -1,0 +1,25 @@
+== RAP Snippet Runner ==
+
+The snippet runner allows to run RAP snippets without registering entrypoints
+and restarting the server.
+
+=== Usage ===
+
+* Put your snippets into the package org.eclipse.rap.snippets.
+  To keep them separate from this bundle, create a fragment project, e.g.
+  org.eclipse.rap.snippets.custom
+* Snippet classes must either implement IApplication or IEntrypoint or they must
+  have a standard Java main method.
+* Snippets can be accessed using a URL like this:
+  http://host:port/snippets?class=SnippetName
+
+  If the snippet resides in the package org.eclipse.rap.snippets, you can use
+  the unqualified class name, e.g.
+    http://localhost:9090/snippets?class=MySnippet
+
+  For other packages, use the fully qualified class name:
+    http://localhost:9090/snippets?class=org.eclipse.swt.snippets.Snippet91
+
+=== License ===
+
+All classes are published under the terms of the Eclipse Public License v1.0

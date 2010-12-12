@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.rap.ui.entrypoint">
+      <entrypoint
+            id="org.eclipse.rap.snippets.entrypoint"
+            parameter="snippets"
+            class="org.eclipse.rap.snippets.internal.SnippetRunner">
+      </entrypoint>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.branding">
+      <branding
+           id="org.eclipse.rap.snippets.branding"
+           servletName="snippets"
+           defaultEntrypointId="org.eclipse.rap.snippets.entrypoint">
+      </branding>
+   </extension>
+
+</plugin>

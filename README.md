@@ -1,9 +1,11 @@
-== RAP Snippet Runner ==
+RAP Snippet Runner
+==================
 
-The snippet runner allows to run RAP snippets without registering entrypoints
+The snippet runner makes it easy to run RAP snippets without registering entrypoints
 and restarting the server.
 
-=== Usage ===
+Usage
+-----
 
 * Put your snippets into the package org.eclipse.rap.snippets.
   To keep them separate from this bundle you can also create a fragment project
@@ -16,6 +18,7 @@ and restarting the server.
 * Snippets in other packages must use the fully qualified class name:
     http://localhost:9090/snippets?class=org.eclipse.swt.snippets.Snippet91
 
-=== License ===
+License
+-------
 
 All classes are published under the terms of the Eclipse Public License v1.0

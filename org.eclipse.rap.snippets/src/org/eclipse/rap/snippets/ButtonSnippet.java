@@ -50,6 +50,7 @@ public class ButtonSnippet implements IEntryPoint {
     pushButton = new Button( parent, SWT.PUSH );
     pushButton.setText( "Push" );
     pushButton.addSelectionListener( new SelectionAdapter() {
+      @Override
       public void widgetSelected( SelectionEvent e ) {
         label.setText( "Push button pressed" );
       }
@@ -57,6 +58,7 @@ public class ButtonSnippet implements IEntryPoint {
     toggleButton = new Button( parent, SWT.TOGGLE );
     toggleButton.setText( "Toggle" );
     toggleButton.addSelectionListener( new SelectionAdapter() {
+      @Override
       public void widgetSelected( SelectionEvent e ) {
         String action = toggleButton.getSelection() ? "enabled" : "disabled";
         label.setText( "Toggle button " + action );

@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2010 EclipseSource and others. All rights reserved.
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2010, 2012 EclipseSource and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   EclipseSource - initial API and implementation
+ *    EclipseSource - initial API and implementation
  ******************************************************************************/
 package org.eclipse.rap.snippets.internal;
 
@@ -19,6 +20,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.lifecycle.IEntryPoint;
 
+
 public class SnippetRunner implements IEntryPoint {
 
   private static final String PLUGIN_ID = "org.eclipse.rap.snippets";
@@ -31,7 +33,7 @@ public class SnippetRunner implements IEntryPoint {
         String message = "No class given in URL parameter \"class\"";
         throw new IllegalArgumentException( message );
       }
-      Class snippetClass = findClass( value );
+      Class<?> snippetClass = findClass( value );
       runSnippet( snippetClass );
     } catch( Exception exception ) {
       if( exception instanceof InvocationTargetException ) {
@@ -45,15 +47,14 @@ public class SnippetRunner implements IEntryPoint {
     return 0;
   }
 
-  private Class findClass( String value ) {
+  private Class<?> findClass( String value ) {
     if( value.indexOf( '.' ) != -1 ) {
       return loadClass( value );
-    } else {
-      return loadClass( PACKAGE_PREFIX + "." + value );
     }
+    return loadClass( PACKAGE_PREFIX + "." + value );
   }
 
-  private Class loadClass( String className ) {
+  private Class<?> loadClass( String className ) {
     ClassLoader classLoader = SnippetRunner.class.getClassLoader();
     try {
       return classLoader.loadClass( className );
@@ -63,7 +64,7 @@ public class SnippetRunner implements IEntryPoint {
     }
   }
 
-  private void runSnippet( Class snippetClass ) throws Exception {
+  private void runSnippet( Class<?> snippetClass ) throws Exception {
     if( IApplication.class.isAssignableFrom( snippetClass ) ) {
       IApplication application = ( IApplication )createInstance( snippetClass );
       application.start( null );
@@ -83,10 +84,10 @@ public class SnippetRunner implements IEntryPoint {
     }
   }
 
-  private Method getMainMethod( Class snippetClass ) {
+  private Method getMainMethod( Class<?> snippetClass ) {
     Method method = null;
     try {
-      Class[] mainParameterTypes = new Class[]{ String[].class };
+      Class<?>[] mainParameterTypes = new Class[]{ String[].class };
       method = snippetClass.getMethod( "main", mainParameterTypes );
     } catch( NoSuchMethodException e ) {
       // no such method, return null
@@ -94,7 +95,7 @@ public class SnippetRunner implements IEntryPoint {
     return method;
   }
 
-  private Object createInstance( Class classToRun ) {
+  private Object createInstance( Class<?> classToRun ) {
     try {
       return classToRun.newInstance();
     } catch( InstantiationException e ) {

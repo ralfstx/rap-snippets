@@ -7,16 +7,16 @@ and restarting the server.
 Usage
 -----
 
-* Put your snippets into the package org.eclipse.rap.snippets.
+* Put your snippets into the package `org.eclipse.rap.snippets`.
   To keep them separate from this bundle you can also create a fragment project
-  e.g. org.eclipse.rap.snippets.custom.
+  e.g. `org.eclipse.rap.snippets.custom`.
 * Snippet classes must either implement IApplication or IEntrypoint or they must
   have a standard Java main method.
-* Snippets that reside in the package org.eclipse.rap.snippets can be accessed
+* Snippets that reside in the package `org.eclipse.rap.snippets` can be accessed
   using an URL like this:
-    http://localhost:9090/snippets?class=MySnippet
+    `http://localhost:9090/snippet?class=MySnippet`
 * Snippets in other packages must use the fully qualified class name:
-    http://localhost:9090/snippets?class=org.eclipse.swt.snippets.Snippet91
+    `http://localhost:9090/snippet?class=org.eclipse.swt.snippets.Snippet91`
 
 License
 -------

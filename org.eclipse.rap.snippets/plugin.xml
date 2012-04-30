@@ -6,17 +6,9 @@
          point="org.eclipse.rap.ui.entrypoint">
       <entrypoint
             id="org.eclipse.rap.snippets.entrypoint"
-            parameter="snippets"
+            path="/snippet"
             class="org.eclipse.rap.snippets.internal.SnippetRunner">
       </entrypoint>
-   </extension>
-   <extension
-         point="org.eclipse.rap.ui.branding">
-      <branding
-           id="org.eclipse.rap.snippets.branding"
-           servletName="snippet"
-           defaultEntrypointId="org.eclipse.rap.snippets.entrypoint">
-      </branding>
    </extension>
 
 </plugin>

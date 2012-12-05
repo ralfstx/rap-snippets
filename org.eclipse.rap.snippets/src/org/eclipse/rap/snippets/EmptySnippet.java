@@ -9,11 +9,11 @@
  ******************************************************************************/
 package org.eclipse.rap.snippets;
 
-import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
+import org.eclipse.rap.rwt.application.EntryPoint;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-public class EmptySnippet implements IEntryPoint {
+public class EmptySnippet implements EntryPoint {
 
   public int createUI() {
     Display display = new Display();

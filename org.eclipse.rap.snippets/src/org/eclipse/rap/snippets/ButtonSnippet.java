@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.rap.snippets;
 
-import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
+import org.eclipse.rap.rwt.application.EntryPoint;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 
-public class ButtonSnippet implements IEntryPoint {
+public class ButtonSnippet implements EntryPoint {
 
   private Button pushButton;
   private Button toggleButton;

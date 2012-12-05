@@ -18,10 +18,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
+import org.eclipse.rap.rwt.application.EntryPoint;
 
 
-public class SnippetRunner implements IEntryPoint {
+public class SnippetRunner implements EntryPoint {
 
   private static final String PLUGIN_ID = "org.eclipse.rap.snippets";
   private static final String PACKAGE_PREFIX = "org.eclipse.rap.snippets";
@@ -68,15 +68,15 @@ public class SnippetRunner implements IEntryPoint {
     if( IApplication.class.isAssignableFrom( snippetClass ) ) {
       IApplication application = ( IApplication )createInstance( snippetClass );
       application.start( null );
-    } else if( IEntryPoint.class.isAssignableFrom( snippetClass ) ) {
-      IEntryPoint entrypoint = ( IEntryPoint )createInstance( snippetClass );
+    } else if( EntryPoint.class.isAssignableFrom( snippetClass ) ) {
+      EntryPoint entrypoint = ( EntryPoint )createInstance( snippetClass );
       entrypoint.createUI();
     } else {
       Method method = getMainMethod( snippetClass );
       if( method == null ) {
         String message = "The class "
                          + snippetClass.getName()
-                         + " does not implement IApplication or IEntryPoint"
+                         + " does not implement IApplication or EntryPoint"
                          + " and does not have a main method.";
         throw new IllegalArgumentException( message );
       }

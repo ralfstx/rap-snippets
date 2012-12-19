@@ -10,40 +10,24 @@
  ******************************************************************************/
 package org.eclipse.rap.snippets.internal;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.equinox.app.IApplication;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.EntryPoint;
 
 
 public class SnippetRunner implements EntryPoint {
 
-  private static final String PLUGIN_ID = "org.eclipse.rap.snippets";
   private static final String PACKAGE_PREFIX = "org.eclipse.rap.snippets";
 
   public int createUI() {
     String value = RWT.getRequest().getParameter( "class" );
-    try {
-      if( value == null || value.length() <= 0 ) {
-        String message = "No class given in URL parameter \"class\"";
-        throw new IllegalArgumentException( message );
-      }
-      Class<?> snippetClass = findClass( value );
-      runSnippet( snippetClass );
-    } catch( Exception exception ) {
-      if( exception instanceof InvocationTargetException ) {
-        Throwable cause = exception.getCause();
-        if( cause instanceof Error ) {
-          throw ( Error )cause;
-        }
-      }
-      showErrorDialog( exception );
+    if( value == null || value.length() <= 0 ) {
+      String message = "No class given in URL parameter \"class\"";
+      throw new IllegalArgumentException( message );
     }
+    Class<?> snippetClass = findClass( value );
+    runSnippet( snippetClass );
     return 0;
   }
 
@@ -64,11 +48,8 @@ public class SnippetRunner implements EntryPoint {
     }
   }
 
-  private void runSnippet( Class<?> snippetClass ) throws Exception {
-    if( IApplication.class.isAssignableFrom( snippetClass ) ) {
-      IApplication application = ( IApplication )createInstance( snippetClass );
-      application.start( null );
-    } else if( EntryPoint.class.isAssignableFrom( snippetClass ) ) {
+  private void runSnippet( Class<?> snippetClass ) {
+    if( EntryPoint.class.isAssignableFrom( snippetClass ) ) {
       EntryPoint entrypoint = ( EntryPoint )createInstance( snippetClass );
       entrypoint.createUI();
     } else {
@@ -76,23 +57,12 @@ public class SnippetRunner implements EntryPoint {
       if( method == null ) {
         String message = "The class "
                          + snippetClass.getName()
-                         + " does not implement IApplication or EntryPoint"
+                         + " does not implement EntryPoint"
                          + " and does not have a main method.";
         throw new IllegalArgumentException( message );
       }
-      method.invoke( null, new Object[] { new String[ 0 ] } );
+      invoke( method );
     }
-  }
-
-  private Method getMainMethod( Class<?> snippetClass ) {
-    Method method = null;
-    try {
-      Class<?>[] mainParameterTypes = new Class[]{ String[].class };
-      method = snippetClass.getMethod( "main", mainParameterTypes );
-    } catch( NoSuchMethodException e ) {
-      // no such method, return null
-    }
-    return method;
   }
 
   private Object createInstance( Class<?> classToRun ) {
@@ -109,11 +79,23 @@ public class SnippetRunner implements EntryPoint {
     }
   }
 
-  private void showErrorDialog( Exception e ) {
-    String message = "Could not load requested snippet";
-    e.printStackTrace();
-    String errorMessage = e.getClass().getName() + ": " + e.getMessage();
-    Status status = new Status( IStatus.ERROR, PLUGIN_ID, errorMessage, e );
-    ErrorDialog.openError( null, "Snippet Runner Error", message, status );
+  private Method getMainMethod( Class<?> snippetClass ) {
+    Method method = null;
+    try {
+      Class<?>[] mainParameterTypes = new Class[]{ String[].class };
+      method = snippetClass.getMethod( "main", mainParameterTypes );
+    } catch( NoSuchMethodException e ) {
+      // no such method, return null
+    }
+    return method;
   }
+
+  private void invoke( Method method ) {
+    try {
+      method.invoke( null, new Object[] { new String[ 0 ] } );
+    } catch( Exception exception ) {
+      throw new RuntimeException( "Could not invoke method " + method.getName(), exception );
+    }
+  }
+
 }

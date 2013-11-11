@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 EclipseSource and others.
+ * Copyright (c) 2012, 2013 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,56 +10,36 @@
  ******************************************************************************/
 package org.eclipse.rap.snippets;
 
-import org.eclipse.rap.rwt.application.EntryPoint;
+import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Listener;
 
 
-public class ButtonSnippet implements EntryPoint {
+public class ButtonSnippet extends AbstractEntryPoint {
 
   private Button pushButton;
   private Button toggleButton;
   private Label label;
 
-  public int createUI() {
-    Display display = new Display();
-    Shell shell = new Shell( display );
-    shell.setText( "Button Snippet" );
-    shell.setLayout( new GridLayout() );
-    createContents( shell );
-    shell.setSize( 300, 200 );
-    shell.setLocation( 20, 20 );
-    shell.open();
-    while( !shell.isDisposed() ) {
-      if( !display.readAndDispatch() ) {
-        display.sleep();
-      }
-    }
-    return 0;
-  }
-
-  private void createContents( Composite parent ) {
+  @Override
+  protected void createContents( Composite parent ) {
     pushButton = new Button( parent, SWT.PUSH );
     pushButton.setText( "Push" );
-    pushButton.addSelectionListener( new SelectionAdapter() {
-      @Override
-      public void widgetSelected( SelectionEvent e ) {
+    pushButton.addListener( SWT.Selection, new Listener() {
+      public void handleEvent( Event event ) {
         label.setText( "Push button pressed" );
+        System.out.println( "push button pressed" );
       }
     } );
     toggleButton = new Button( parent, SWT.TOGGLE );
     toggleButton.setText( "Toggle" );
-    toggleButton.addSelectionListener( new SelectionAdapter() {
-      @Override
-      public void widgetSelected( SelectionEvent e ) {
+    toggleButton.addListener( SWT.Selection, new Listener() {
+      public void handleEvent( Event event ) {
         String action = toggleButton.getSelection() ? "enabled" : "disabled";
         label.setText( "Toggle button " + action );
       }
@@ -67,4 +47,5 @@ public class ButtonSnippet implements EntryPoint {
     label = new Label( parent, SWT.NONE );
     label.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
   }
+
 }

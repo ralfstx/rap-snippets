@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 EclipseSource and others.
+ * Copyright (c) 2012, 2015 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,6 +31,7 @@ public class ButtonSnippet extends AbstractEntryPoint {
     pushButton = new Button( parent, SWT.PUSH );
     pushButton.setText( "Push" );
     pushButton.addListener( SWT.Selection, new Listener() {
+      @Override
       public void handleEvent( Event event ) {
         label.setText( "Push button pressed" );
         System.out.println( "push button pressed" );
@@ -39,6 +40,7 @@ public class ButtonSnippet extends AbstractEntryPoint {
     toggleButton = new Button( parent, SWT.TOGGLE );
     toggleButton.setText( "Toggle" );
     toggleButton.addListener( SWT.Selection, new Listener() {
+      @Override
       public void handleEvent( Event event ) {
         String action = toggleButton.getSelection() ? "enabled" : "disabled";
         label.setText( "Toggle button " + action );

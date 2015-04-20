@@ -15,7 +15,7 @@ package org.eclipse.swt.snippets;
  *
  * For a list of all SWT example snippets see
  * http://www.eclipse.org/swt/snippets/
- * 
+ *
  * @since 3.2
  */
 import org.eclipse.swt.*;
@@ -26,7 +26,7 @@ import java.util.*;
 
 public class Snippet2 {
 
-public static void main (String [] args) {
+  public static void main (String [] args) {
     Display display = new Display ();
     Shell shell = new Shell (display);
     shell.setLayout(new FillLayout());
@@ -45,27 +45,28 @@ public static void main (String [] args) {
     column1.setWidth(100);
     column2.setWidth(100);
     Listener sortListener = new Listener() {
-        public void handleEvent(Event e) {
-            TableItem[] items = table.getItems();
-            Collator collator = Collator.getInstance(Locale.getDefault());
-            TableColumn column = (TableColumn)e.widget;
-            int index = column == column1 ? 0 : 1;
-            for (int i = 1; i < items.length; i++) {
-                String value1 = items[i].getText(index);
-                for (int j = 0; j < i; j++){
-                    String value2 = items[j].getText(index);
-                    if (collator.compare(value1, value2) < 0) {
-                        String[] values = {items[i].getText(0), items[i].getText(1)};
-                        items[i].dispose();
-                        TableItem item = new TableItem(table, SWT.NONE, j);
-                        item.setText(values);
-                        items = table.getItems();
-                        break;
-                    }
-                }
+      @Override
+      public void handleEvent(Event e) {
+        TableItem[] items = table.getItems();
+        Collator collator = Collator.getInstance(Locale.getDefault());
+        TableColumn column = (TableColumn)e.widget;
+        int index = column == column1 ? 0 : 1;
+        for (int i = 1; i < items.length; i++) {
+          String value1 = items[i].getText(index);
+          for (int j = 0; j < i; j++){
+            String value2 = items[j].getText(index);
+            if (collator.compare(value1, value2) < 0) {
+              String[] values = {items[i].getText(0), items[i].getText(1)};
+              items[i].dispose();
+              TableItem item = new TableItem(table, SWT.NONE, j);
+              item.setText(values);
+              items = table.getItems();
+              break;
             }
-            table.setSortColumn(column);
+          }
         }
+        table.setSortColumn(column);
+      }
     };
     column1.addListener(SWT.Selection, sortListener);
     column2.addListener(SWT.Selection, sortListener);
@@ -74,9 +75,11 @@ public static void main (String [] args) {
     shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 300);
     shell.open();
     while (!shell.isDisposed ()) {
-        if (!display.readAndDispatch ()) display.sleep ();
+      if (!display.readAndDispatch ()) {
+        display.sleep ();
+      }
     }
     display.dispose ();
-}
+  }
 
 }
